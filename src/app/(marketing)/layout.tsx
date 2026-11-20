@@ -10,12 +10,13 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const jetbrains = JetBrains_Mono({ subsets: ["latin"], variable: "--font-jetbrains" });
 
 export const metadata: Metadata = {
-  title: "OwnerGC: Free Cost-to-Build Estimator for Owner-Builders",
+  title: "OwnerGC: All-in-One Software for Owner-Builders",
   description:
-    "Building your own house? Get a free line-item cost to build, see what you save as your own general contractor, and get a build schedule.",
+    "Building your own house? OwnerGC puts your budget, bids, receipts, inspections, loan draws and documents in one app. Start with a free line-item estimate.",
   openGraph: {
-    title: "OwnerGC: What will your house cost to build?",
-    description: "Free line-item budget, owner-builder savings and build schedule for your plan. Built by an owner-builder.",
+    title: "OwnerGC: Build your own home with one app",
+    description:
+      "All-in-one software for owner-builders: budget, bids, receipts, inspections, loan draws and documents. Start with a free estimate. Built by an owner-builder.",
   },
   icons: {
     icon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2313202c'/%3E%3Cpath d='M7 16 16 8l9 8v9H7z' fill='none' stroke='%23f0a43a' stroke-width='2.4' stroke-linejoin='round'/%3E%3C/svg%3E",

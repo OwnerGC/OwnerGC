@@ -22,18 +22,18 @@ export default async function Home() {
           <header className="hero">
             <div>
               <div className="eyebrow">
-                <i></i>Free estimator · No signup
+                <i></i>All-in-one app for owner-builders
               </div>
               <h1>
-                What will your house <em>actually</em> cost to build?
+                Build your own home with <em>one app</em>.
               </h1>
               <p className="lead">
-                Enter your plan&apos;s square footage and get a line-item budget, what you save as your own general contractor, and a
-                phase-by-phase schedule.
+                Budget, bids, receipts, inspections, loan draws and every document, all in one place. Start with a free line-item
+                estimate of your build, no signup needed.
               </p>
               <div className="cta-row">
                 <a className="btn lg" href="#estimator">
-                  Run my numbers{" "}
+                  Get my free estimate{" "}
                   <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M3 8h10M9 4l4 4-4 4" />
                   </svg>
@@ -45,19 +45,19 @@ export default async function Home() {
                   <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="m3 8.5 3 3 7-7" />
                   </svg>
-                  Lender-style line items
+                  Budget &amp; receipts
                 </span>
                 <span>
                   <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="m3 8.5 3 3 7-7" />
                   </svg>
-                  DIY savings built in
+                  Bids &amp; inspections
                 </span>
                 <span>
                   <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="m3 8.5 3 3 7-7" />
                   </svg>
-                  Build schedule
+                  Loan draws &amp; documents
                 </span>
               </div>
             </div>
