@@ -2,8 +2,10 @@
 // saved inputs with the same cost model as the estimator, so they always match.
 import Link from "next/link";
 import { getProjectContext } from "@/lib/project/access";
-import { loadBudget } from "@/lib/project/load";
-import { Stat } from "@/components/project/ui";
+import { loadBudget, loadSubsAndBids, loadTasks } from "@/lib/project/load";
+import { upcoming } from "@/lib/project/upcoming";
+import { formatDate, today } from "@/lib/project/validate";
+import { Badge, Card, Stat } from "@/components/project/ui";
 import { estimate, hasSavedEstimate, inputsToSearchParams, money, parseEstimateInputs, percent, shortMoney } from "@/lib/estimator";
 
 type Props = { params: Promise<{ id: string }> };
@@ -18,9 +20,26 @@ export default async function ProjectPage({ params }: Props) {
   const editParams = inputsToSearchParams(inputs);
   editParams.set("project", project.id);
 
-  const loaded = await loadBudget(supabase, project.id);
+  const [loaded, tasks, { subs, bids }, { data: selections }] = await Promise.all([
+    loadBudget(supabase, project.id),
+    loadTasks(supabase, project.id),
+    loadSubsAndBids(supabase, project.id),
+    supabase.from("selections").select("item, due_on, status").eq("project_id", project.id),
+  ]);
   const budget = loaded.lines.length ? loaded.summary : null;
   const base = `/dashboard/projects/${project.id}`;
+  const subName = new Map(subs.map((x) => [x.id, x.company]));
+  const lineName = new Map(loaded.lines.map((l) => [l.id, l.name]));
+  const comingUp = upcoming(
+    {
+      tasks,
+      bids: bids.map((b) => ({ due_on: b.due_on, status: b.status, subName: subName.get(b.sub_id) ?? "a sub", lineName: lineName.get(b.budget_line_id) ?? "" })),
+      subs,
+      selections: selections ?? [],
+    },
+    today(),
+    base,
+  );
 
   return (
     <div className="space-y-8">
@@ -52,6 +71,21 @@ export default async function ProjectPage({ params }: Props) {
             estimate, then log spending against it.
           </p>
         )
+      )}
+
+      {comingUp.length > 0 && (
+        <Card title="Coming up">
+          <ul className="divide-y divide-stone-100 text-sm">
+            {comingUp.slice(0, 12).map((u, i) => (
+              <li key={i} className="flex flex-wrap items-center justify-between gap-2 px-4 py-2">
+                <Link href={u.href} className="text-stone-900 hover:underline">
+                  {u.kind === "inspection" && <Badge tone="blue">Inspection</Badge>} {u.title}
+                </Link>
+                <span className={u.overdue ? "font-medium text-red-700" : "text-stone-600"}>{u.overdue ? `Overdue (${formatDate(u.date)})` : formatDate(u.date)}</span>
+              </li>
+            ))}
+          </ul>
+        </Card>
       )}
 
       {canEdit && (

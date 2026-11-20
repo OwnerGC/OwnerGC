@@ -22,7 +22,7 @@ export function ActionForm({
   action: (formData: FormData) => Promise<Result>;
   projectId: string;
   /** Where an attached file goes, and which form field holds its title. */
-  upload?: { folder: Folder; titleField?: string; phaseField?: string; lineField?: string };
+  upload?: { folder: Folder; titleField?: string; phaseField?: string; lineField?: string; subField?: string; expiresField?: string };
   className?: string;
   children: React.ReactNode;
   resetOnSuccess?: boolean;
@@ -49,6 +49,8 @@ export function ActionForm({
         title: upload.titleField ? String(formData.get(upload.titleField) ?? "") : "",
         phase: upload.phaseField ? String(formData.get(upload.phaseField) ?? "") : "",
         budgetLineId: upload.lineField ? String(formData.get(upload.lineField) ?? "") : "",
+        subId: upload.subField ? String(formData.get(upload.subField) ?? "") : "",
+        expiresOn: upload.expiresField ? String(formData.get(upload.expiresField) ?? "") : "",
       });
       if ("error" in res) {
         setStatus(null);

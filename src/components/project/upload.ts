@@ -17,6 +17,7 @@ export async function uploadDocument(opts: {
   budgetLineId?: string;
   notes?: string;
   expiresOn?: string;
+  subId?: string;
 }): Promise<{ id: string } | { error: string }> {
   const check = checkUpload(opts.file);
   if (!check.ok) return { error: check.error };
@@ -37,6 +38,7 @@ export async function uploadDocument(opts: {
       budget_line_id: isUuid(opts.budgetLineId) ? opts.budgetLineId : null,
       notes: opts.notes?.trim().slice(0, 2000) || null,
       expires_on: opts.expiresOn || null,
+      sub_id: isUuid(opts.subId) ? opts.subId : null,
       content_type: check.contentType,
       size_bytes: opts.file.size,
       uploaded_by: user.id,
