@@ -1,0 +1,22 @@
+# Runs the security tests on every push and pull request, against a throwaway
+# local Supabase inside GitHub's free CI machines. No paid resources involved.
+name: Security tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx supabase start -x studio,imgproxy,edge-runtime,logflare,vector,realtime,supavisor,postgres-meta,storage-api
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm test
