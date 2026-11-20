@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>OwnerGC: Free Cost-to-Build Estimator for Owner-Builders</title>
+<meta name="description" content="Building your own house? Get a free line-item cost to build, see what you save as your own general contractor, and get a build schedule. Join the OwnerGC waitlist.">
+<meta property="og:title" content="OwnerGC: What will your house cost to build?">
+<meta property="og:description" content="Free line-item budget, owner-builder savings and build schedule for your plan. Built by an owner-builder.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* ====== EDIT THIS ONE LINE: paste your Tally form link between the quotes ====== */
+</style>
+<script>window.WAITLIST_URL = "https://tally.so/r/rDoyRo";</script>
+<style>
+:root{
+  --bg:#eef0f2; --sheet:#fff; --ink:#1c2430; --muted:#5d6876; --line:#d3d9e0;
+  --accent:#c98a14; --accent-soft:#f6e7c8; --accent-ink:#7a4f00; --good:#2f7d4f; --good-soft:#dcefe3; --blue:#2c5d8a;
+  --f-display:"IBM Plex Sans Condensed","Arial Narrow",Arial,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#12171d; --sheet:#1a2129; --ink:#e4e8ed; --muted:#97a2af; --line:#2c3540;
+  --accent:#e0a53a; --accent-soft:#3a2e17; --accent-ink:#f2c879; --good:#5cc489; --good-soft:#1a3326; --blue:#7fb0dd; color-scheme:dark}}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:16px/1.55 var(--f-body)}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+a{color:var(--blue)}
+.btn{display:inline-block;font:600 15px/1 var(--f-display);text-transform:uppercase;letter-spacing:.06em;background:var(--accent);color:#1c2430;padding:14px 20px;border-radius:2px;text-decoration:none;border:0;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--ink)}
+.btn:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+nav.top{display:flex;justify-content:space-between;align-items:center;padding-block:16px;border-bottom:2px solid var(--ink)}
+.brand{font:700 26px/1 var(--f-display)}
+.brand span{color:var(--accent)}
+.hero{padding-block:48px 32px;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:32px;align-items:end}
+@media (max-width:820px){.hero{grid-template-columns:minmax(0,1fr);padding-block:32px 24px}}
+h1{font:700 clamp(34px,6vw,58px)/1.02 var(--f-display);margin:0 0 16px;text-wrap:balance;letter-spacing:-.01em}
+.lead{font-size:18px;color:var(--muted);margin:0 0 24px;max-width:52ch}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px}
+.proof{border-left:3px solid var(--accent);padding:4px 0 4px 16px;color:var(--muted);font-size:15px}
+.proof b{display:block;color:var(--ink);font:600 15px var(--f-display);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+section{padding-block:32px}
+h2{font:700 30px/1.1 var(--f-display);margin:0 0 8px;text-wrap:balance}
+.sub{color:var(--muted);margin:0 0 20px;max-width:62ch}
+.panel{background:var(--sheet);border:1px solid var(--line);padding:20px;min-width:0}
+.tool{display:grid;grid-template-columns:320px minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:860px){.tool{grid-template-columns:minmax(0,1fr)}}
+fieldset{border:0;margin:0 0 18px;padding:0;display:flex;flex-direction:column;gap:10px}
+legend{font:600 12px/1 var(--f-display);text-transform:uppercase;letter-spacing:.1em;color:var(--accent-ink);background:var(--accent-soft);padding:4px 6px;margin-bottom:10px}
+.row{display:grid;grid-template-columns:1fr 116px;gap:10px;align-items:center}
+label{font-size:15px}
+label small{display:block;color:var(--muted);font-size:12.5px}
+input[type=number],select{width:100%;font:500 15px var(--f-mono);color:var(--ink);background:var(--bg);border:1px solid var(--line);padding:8px;border-radius:2px;text-align:right}
+select{font-family:var(--f-body);text-align:left}
+.toggle{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
+.toggle input{margin-top:4px;accent-color:var(--accent);width:17px;height:17px;flex:none}
+.note{font-size:13px;color:var(--muted);margin:0}
+.summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid var(--line);background:var(--sheet);margin-bottom:16px}
+.summary>div{padding:14px 16px;border-right:1px solid var(--line);min-width:0}
+.summary>div:last-child{border-right:0}
+@media (max-width:640px){.summary{grid-template-columns:repeat(2,minmax(0,1fr))}.summary>div:nth-child(2){border-right:0}.summary>div:nth-child(-n+2){border-bottom:1px solid var(--line)}}
+.k{font:600 11.5px/1.2 var(--f-display);text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+.v{font:500 24px/1.2 var(--f-mono);margin-top:4px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.v.save{color:var(--good)}.v.total{color:var(--accent-ink)}
+.k2{font-size:12.5px;color:var(--muted)}
+.tbl{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:15px;min-width:460px}
+th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:left}
+th{font:600 11.5px var(--f-display);text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+td.n{text-align:right;font-family:var(--f-mono);white-space:nowrap;font-variant-numeric:tabular-nums}
+td.div{font-family:var(--f-mono);color:var(--muted);width:44px}
+tr.grp td{font:600 12px var(--f-display);text-transform:uppercase;letter-spacing:.08em;color:var(--accent-ink);background:var(--accent-soft);border-bottom:0}
+tr.tot td{font-weight:600;border-top:2px solid var(--ink);border-bottom:0}
+.chip{display:inline-block;font:600 10.5px/1 var(--f-display);text-transform:uppercase;padding:3px 5px;margin-left:6px;background:var(--good-soft);color:var(--good)}
+.saved{color:var(--good);font-size:12px;display:block}
+details summary{cursor:pointer;font:600 15px var(--f-display);text-transform:uppercase;letter-spacing:.06em;padding:10px 0}
+.inline-cta{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;background:var(--ink);color:var(--sheet);padding:18px 20px;margin-top:16px}
+.inline-cta p{margin:0;max-width:56ch}
+.feats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border:1px solid var(--line);background:var(--sheet)}
+.feats>div{padding:18px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);min-width:0}
+.feats>div:nth-child(3n){border-right:0}
+.feats h3{font:600 18px var(--f-display);margin:0 0 4px}
+.feats p{margin:0;color:var(--muted);font-size:14.5px}
+@media (max-width:760px){.feats{grid-template-columns:minmax(0,1fr)}.feats>div{border-right:0}}
+.join{background:var(--accent-soft);border:1px solid var(--accent);padding:28px;display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:24px;align-items:center}
+@media (max-width:760px){.join{grid-template-columns:minmax(0,1fr);padding:20px}}
+.join ul{margin:0;padding-left:20px}
+.faq dt{font:600 17px var(--f-display);margin-top:16px}
+.faq dd{margin:4px 0 0;color:var(--muted);max-width:66ch}
+footer{padding-block:32px 48px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);margin-top:32px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="top"><div class="brand">Owner<span>GC</span></div><a class="btn ghost" href="#join" data-waitlist>Join waitlist</a></nav>
+
+  <header class="hero">
+    <div>
+      <h1>What will your house actually cost to build?</h1>
+      <p class="lead">Enter your plan's square footage and get a free line-item budget, what you save as your own general contractor, and a phase-by-phase schedule. No signup.</p>
+      <div class="cta-row"><a class="btn" href="#estimator">Run my numbers</a><a class="btn ghost" href="#join" data-waitlist>Join the waitlist</a></div>
+    </div>
+    <div class="proof"><b>Built by an owner-builder</b>I made this to plan my own self-contracted build in Idaho. Lenders want a line-item budget, subs want a schedule, and spreadsheets weren't cutting it.</div>
+  </header>
+
+  <section id="estimator">
+    <h2>Free cost-to-build estimator</h2>
+    <p class="sub">Starts with an example 5-bedroom farmhouse. Change anything and the numbers update instantly.</p>
+    <div class="tool">
+      <div class="panel">
+        <fieldset>
+          <legend>Square footage</legend>
+          <div class="row"><label for="sfMain">Main floor</label><input id="sfMain" type="number" min="0" step="50" value="2400"></div>
+          <div class="row"><label for="sfUpper">Upper floor</label><input id="sfUpper" type="number" min="0" step="50" value="900"></div>
+          <div class="row"><label for="sfBase">Basement <small>unfinished</small></label><input id="sfBase" type="number" min="0" step="50" value="0"></div>
+          <div class="row"><label for="sfGarage">Garage &amp; shop</label><input id="sfGarage" type="number" min="0" step="50" value="900"></div>
+          <div class="row"><label for="sfBonus">Bonus space <small>unfinished</small></label><input id="sfBonus" type="number" min="0" step="50" value="0"></div>
+        </fieldset>
+        <fieldset>
+          <legend>Market &amp; finishes</legend>
+          <div class="row"><label for="finish">Finish level</label><select id="finish"><option value="165" selected>Basic</option><option value="195">Standard</option><option value="240">Upgraded</option></select></div>
+          <div class="row"><label for="region">Region cost</label><select id="region"><option value="0.9">Low (rural)</option><option value="1" selected>Average</option><option value="1.2">High (metro)</option></select></div>
+          <div class="row"><label for="land">Land</label><input id="land" type="number" min="0" step="5000" value="150000"></div>
+          <div class="row"><label for="util">Well, septic &amp; hookups</label><input id="util" type="number" min="0" step="1000" value="25000"></div>
+        </fieldset>
+        <fieldset>
+          <legend>What you'll do yourself</legend>
+          <label class="toggle"><input id="dMat" type="checkbox"><span>Buy materials yourself<br><small>Skips sub markup on lumber and sheathing</small></span></label>
+          <label class="toggle"><input id="dFrame" type="checkbox"><span>Framing labor</span></label>
+          <label class="toggle"><input id="dElec" type="checkbox"><span>Electrical wiring</span></label>
+          <label class="toggle"><input id="dDry" type="checkbox"><span>Hang drywall</span></label>
+          <label class="toggle"><input id="dPaint" type="checkbox"><span>Interior paint</span></label>
+        </fieldset>
+        <p class="note">Planning-grade estimates based on national averages. Get real bids before you lock a loan amount.</p>
+      </div>
+      <div>
+        <div class="summary">
+          <div><div class="k">All-in cost</div><div class="v total" id="oTotal">–</div><div class="k2">land + build</div></div>
+          <div><div class="k">Build cost</div><div class="v" id="oBuild">–</div><div class="k2" id="oPsf">–</div></div>
+          <div><div class="k">You save</div><div class="v save" id="oSave">–</div><div class="k2">vs. hiring a builder</div></div>
+          <div><div class="k">Timeline</div><div class="v" id="oWeeks">–</div><div class="k2" id="oMonths">–</div></div>
+        </div>
+        <p class="note" style="margin:-6px 0 12px">Totals include site work, permits, well and septic, and a 10% contingency, not just the house itself.</p>
+        <div class="panel">
+          <details open><summary>Line-item budget</summary>
+          <div class="tbl"><table><thead><tr><th>Div</th><th>Item</th><th style="text-align:right">Cost</th></tr></thead><tbody id="lines"></tbody></table></div>
+          </details>
+        </div>
+        <div class="inline-cta"><p>Want to track real bids, receipts and loan draws against this budget? The full OwnerGC app is coming.</p><a class="btn" href="#join" data-waitlist>Join waitlist</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Run your build like a pro GC</h2>
+    <p class="sub">The full app takes you from first estimate to certificate of occupancy.</p>
+    <div class="feats">
+      <div><h3>Budget vs. actual</h3><p>Log every receipt against its budget line and see where you're over before it's a problem.</p></div>
+      <div><h3>Sub bids</h3><p>Compare bids side by side and award one; it becomes your committed cost.</p></div>
+      <div><h3>Lender-ready draws</h3><p>Know when each draw is ready and send a clean request with receipts and inspections attached.</p></div>
+      <div><h3>Inspection checklist</h3><p>Every phase and inspection in order, so nothing gets covered up before it's signed off.</p></div>
+      <div><h3>All your documents</h3><p>Plans, permits, contracts, lien waivers and receipts in one place, on your phone at the site.</p></div>
+      <div><h3>AI bid review</h3><p>Upload a sub's bid and get flagged on missing scope before you sign.</p></div>
+    </div>
+  </section>
+
+  <section id="join">
+    <div class="join">
+      <div>
+        <h2>Get early access</h2>
+        <p class="sub" style="margin-bottom:12px">Join the waitlist and be first in when OwnerGC opens in spring 2027.</p>
+        <ul><li>Founding members get a locked-in discount</li><li>Help shape the features that ship first</li><li>No spam; one email when it's ready</li></ul>
+      </div>
+      <div><a class="btn" href="#" data-waitlist style="width:100%;text-align:center;font-size:17px;padding:18px">Join the waitlist</a><p class="note" style="margin-top:10px;text-align:center">Takes 30 seconds. Opens a short form.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Questions</h2>
+    <dl class="faq">
+      <dt>How accurate is the estimate?</dt><dd>It's a planning number based on typical cost shares for each part of a build, adjusted for finish level and region. Real bids vary by area and season, so use it to plan, then confirm with local bids.</dd>
+      <dt>Is this for me if I'm hiring a builder?</dt><dd>The estimator works for anyone. The full app is built for people acting as their own general contractor, and for small builders and investors running several builds.</dd>
+      <dt>What will it cost?</dt><dd>The estimator stays free. Full tracking is planned at about $24 a month during your build, with a discount for founding members.</dd>
+    </dl>
+  </section>
+
+  <footer>© 2026 OwnerGC · Estimates are for planning only and are not bids, appraisals or financial advice.</footer>
+</div>
+
+<script>
+(function(){
+  var URL=window.WAITLIST_URL||"#";
+  document.querySelectorAll("[data-waitlist]").forEach(function(a){
+    if(URL.indexOf("REPLACE_ME")<0){a.href=URL;a.target="_blank";a.rel="noopener"}
+  });
+  var $=function(id){return document.getElementById(id)};
+  var LINES=[
+    {g:"Site & structure",d:"02",n:"Site prep & excavation",p:.05},
+    {g:"Site & structure",d:"03",n:"Foundation & flatwork",p:.11},
+    {g:"Site & structure",d:"06",n:"Framing materials & sheathing",p:.13,mat:1},
+    {g:"Site & structure",d:"06",n:"Framing labor",p:.07,diy:"dFrame",save:1},
+    {g:"Envelope",d:"07",n:"Roofing",p:.05},
+    {g:"Envelope",d:"08",n:"Windows & exterior doors",p:.05},
+    {g:"Envelope",d:"07",n:"Siding, stone & exterior trim",p:.06},
+    {g:"Envelope",d:"07",n:"Insulation",p:.03},
+    {g:"Systems",d:"22",n:"Plumbing",p:.07},
+    {g:"Systems",d:"23",n:"HVAC",p:.06},
+    {g:"Systems",d:"26",n:"Electrical",p:.06,diy:"dElec",save:.55},
+    {g:"Interior",d:"09",n:"Drywall",p:.05,diy:"dDry",save:.4},
+    {g:"Interior",d:"12",n:"Cabinets & countertops",p:.06},
+    {g:"Interior",d:"09",n:"Flooring & tile",p:.05},
+    {g:"Interior",d:"06",n:"Interior doors & trim",p:.04},
+    {g:"Interior",d:"09",n:"Paint",p:.03,diy:"dPaint",save:.65},
+    {g:"Interior",d:"11",n:"Fixtures & appliances",p:.03}];
+  var PH=[6,2,4,[6,"dFrame",5],3,[4,"dElec",3],1,[4,"dDry",3],4,[3,"dPaint",2],2];
+  var money=function(v){return "$"+Math.round(v).toLocaleString("en-US")};
+  var short=function(v){return v>=1e6?"$"+(v/1e6).toFixed(2)+"M":"$"+Math.round(v/1000)+"k"};
+  var num=function(id){var v=parseFloat($(id).value);return isFinite(v)&&v>0?v:0};
+  var on=function(id){return $(id).checked};
+  function calc(){
+    var main=num("sfMain"),up=num("sfUpper"),bs=num("sfBase"),gar=num("sfGarage"),bon=num("sfBonus");
+    var rate=parseFloat($("finish").value)*parseFloat($("region").value);
+    var hard=(main+up+bs*.45+gar*.45+bon*.5)*rate,net=0,sv=0,rows="",grp="";
+    LINES.forEach(function(L){
+      var c=hard*L.p,s=0,chip="";
+      if(L.mat&&on("dMat")){s=c*.12;chip='<span class="chip">Self-supply</span>'}
+      if(L.diy&&on(L.diy)){s=c*L.save;chip='<span class="chip">DIY</span>'}
+      net+=c-s;sv+=s;
+      if(L.g!==grp){grp=L.g;rows+='<tr class="grp"><td colspan="3">'+grp+'</td></tr>'}
+      rows+='<tr><td class="div">'+L.d+'</td><td>'+L.n+chip+'</td><td class="n">'+money(c-s)+(s?'<span class="saved">−'+money(s)+'</span>':'')+'</td></tr>';
+    });
+    var soft=[["01","Permits & impact fees",9000+hard*.01],["01","Engineering & plan changes",4500],["01","Builder's risk insurance",hard*.005],["33","Well, septic & utility hookups",num("util")],["01","Contingency (10%)",net*.1]],st=0;
+    rows+='<tr class="grp"><td colspan="3">Soft costs</td></tr>';
+    soft.forEach(function(s){st+=s[2];rows+='<tr><td class="div">'+s[0]+'</td><td>'+s[1]+'</td><td class="n">'+money(s[2])+'</td></tr>'});
+    var build=net+st;
+    rows+='<tr class="tot"><td></td><td>Total build cost</td><td class="n">'+money(build)+'</td></tr>';
+    $("lines").innerHTML=rows;
+    $("oTotal").textContent=short(build+num("land"));$("oBuild").textContent=short(build);
+    $("oPsf").textContent=(main+up)?money(build/(main+up))+" per finished sf":"–";
+    $("oSave").textContent=short(hard*.12+sv);
+    var wk=PH.reduce(function(a,p){return a+(typeof p==="number"?p:p[0]+(on(p[1])?p[2]:0))},0);
+    $("oWeeks").textContent=wk+" wks";$("oMonths").textContent="about "+Math.round(wk/4.33)+" months";
+  }
+  document.querySelectorAll("input,select").forEach(function(el){el.addEventListener("input",calc);el.addEventListener("change",calc)});
+  calc();
+})();
+</script>
+</body>
+</html>
