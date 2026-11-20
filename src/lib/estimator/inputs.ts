@@ -17,10 +17,14 @@ export type EstimateInputs = {
 /** Bumped whenever the shape of saved inputs changes, so old projects can be upgraded. */
 export const INPUTS_VERSION = 1;
 
-/** The example on the landing page: a 5-bedroom farmhouse. */
+/**
+ * The example on the landing page: a typical new US single-family home. About
+ * 2,150 finished sf (the Census median for new homes in 2024-25), two stories,
+ * two-car garage, standard finishes. Builds for about $550k before land.
+ */
 export const DEFAULT_INPUTS: EstimateInputs = {
-  sqft: { main: 2400, upper: 900, basement: 0, garage: 900, bonus: 0 },
-  finish: "basic",
+  sqft: { main: 1150, upper: 1000, basement: 0, garage: 450, bonus: 0 },
+  finish: "standard",
   region: "average",
   land: 150000,
   utilities: 25000,
