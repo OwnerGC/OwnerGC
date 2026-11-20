@@ -1,4 +1,4 @@
-# OwnerBuilder
+# OwnerGC
 
 Web app for owner-builders running their own custom home build. See `BRIEF.md` (the project brief) for the full plan.
 
