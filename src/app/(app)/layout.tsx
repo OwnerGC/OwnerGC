@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "OwnerBuilder",
-  description: "Run your own custom home build.",
+  title: "OwnerGC",
+  description: "Run your own custom home build as your own general contractor.",
 };
 
 export default function RootLayout({
