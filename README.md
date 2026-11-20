@@ -2,13 +2,15 @@
 
 Web app for owner-builders running their own custom home build. See `BRIEF.md` (the project brief) for the full plan.
 
-**Status: phase 1 (foundation).** Sign-up and login (email, with Google ready to switch on), a projects list, and the database tables `profiles`, `projects` and `project_members` with row-level security, plus automated tests proving one user can't see another user's project.
+**Status: phase 2 (free estimator).** The public home page and free cost estimator (`/`, `/estimate`), saving an estimate as a project, and the phase 1 foundation: sign-up and login, projects with row-level security, and tests proving one user can't see another user's project.
 
 ## How it fits together
 
 | Piece | What it does | Where it lives |
 | --- | --- | --- |
-| Next.js app | The website: pages, forms, login | `src/app/` |
+| Public pages | Home page, free estimator, privacy policy (same design as ownergc.app) | `src/app/(marketing)/` |
+| Signed-in app | Login, your projects, a saved project's estimate | `src/app/(app)/` |
+| Cost model | The estimator's math and reference numbers (cost shares, DIY savings, phases, draws). Change numbers in `data.ts` | `src/lib/estimator/` |
 | Supabase clients | How the app talks to the database as the signed-in user | `src/lib/supabase/` |
 | Middleware | Keeps you logged in and sends signed-out visitors to `/login` | `src/middleware.ts` |
 | Database schema and security rules | Tables plus the rules that wall each customer's data off | `supabase/migrations/` |
@@ -33,15 +35,14 @@ npm run dev                 # open http://localhost:3000
 
 Sign-up emails don't really get sent locally. Open the local mailbox at http://127.0.0.1:54324 to click the confirmation link.
 
-## Running the security tests
-
-With local Supabase running:
+## Running the tests
 
 ```bash
-npm test
+npm run test:unit      # the cost model; no database needed, takes a second
+npm test               # everything, including the security tests (needs local Supabase running)
 ```
 
-You should see `17 passed`. The tests refuse to run against anything except the local database, so they can never touch real customer data. They also run automatically on GitHub for every change (`.github/workflows/security-tests.yml`).
+The unit tests also run the original ownergc.app landing page script and check the app gives exactly the same numbers. The security tests refuse to run against anything except the local database, so they can never touch real customer data. They also run automatically on GitHub for every change (`.github/workflows/security-tests.yml`).
 
 ## Turning on Google sign-in
 

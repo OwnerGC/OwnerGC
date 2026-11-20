@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { signIn, signInWithGoogle, signUp } from "./actions";
 
 type Props = {
@@ -12,8 +13,15 @@ export default async function LoginPage({ searchParams }: Props) {
 
   return (
     <main className="mx-auto flex min-h-screen max-w-md flex-col justify-center gap-6 px-4 py-12">
-      <h1 className="text-3xl font-semibold text-stone-900">OwnerBuilder</h1>
+      <h1 className="text-3xl font-semibold text-stone-900">
+        <Link href="/">OwnerGC</Link>
+      </h1>
 
+      {next?.startsWith("/estimate") && (
+        <p className="rounded-md bg-amber-50 p-3 text-sm text-amber-900">
+          Sign in or create a free account to save your estimate. Your numbers will be waiting when you get back.
+        </p>
+      )}
       {error && <p className="rounded-md bg-red-50 p-3 text-sm text-red-800">{error}</p>}
       {message && <p className="rounded-md bg-green-50 p-3 text-sm text-green-800">{message}</p>}
 
@@ -39,6 +47,7 @@ export default async function LoginPage({ searchParams }: Props) {
       <section className="space-y-3">
         <h2 className="text-lg font-medium text-stone-800">New here? Create an account</h2>
         <form action={signUp} className="space-y-3">
+          <input type="hidden" name="next" value={next ?? ""} />
           <input className={input} name="name" type="text" placeholder="Your name" autoComplete="name" />
           <input className={input} name="email" type="email" placeholder="Email" required autoComplete="email" />
           <input className={input} name="password" type="password" placeholder="Password (8+ characters)" required minLength={8} autoComplete="new-password" />
