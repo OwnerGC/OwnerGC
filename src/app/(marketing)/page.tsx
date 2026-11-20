@@ -65,7 +65,7 @@ export default async function Home() {
             <div className="preview" aria-hidden="true">
               <div className="pcard">
                 <div className="ph">
-                  <b>Example 5-bed farmhouse</b>
+                  <b>Typical new home</b>
                   <small>{example.finishedSqft.toLocaleString("en-US")} sf</small>
                 </div>
                 <div className="pbig">{money(example.buildCost)}</div>
@@ -136,7 +136,7 @@ export default async function Home() {
           <div className="sec-head">
             <p className="kicker">Free estimator</p>
             <h2>Your cost to build</h2>
-            <p className="sub">Starts with an example 5-bedroom farmhouse. Change anything and the numbers update instantly.</p>
+            <p className="sub">Starts with a typical new US home: 2,150 sf over two floors with a two-car garage. Change anything and the numbers update instantly.</p>
           </div>
           <Estimator initial={DEFAULT_INPUTS} variant="landing" signedIn={!!user} />
         </div>

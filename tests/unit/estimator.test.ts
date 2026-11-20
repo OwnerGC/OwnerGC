@@ -36,13 +36,13 @@ describe("reference data", () => {
   });
 });
 
-describe("the default example (landing page farmhouse)", () => {
+describe("the default example (typical new home on the landing page)", () => {
   const e = estimate(DEFAULT_INPUTS);
-  // (2400 + 900 + 900 garage x 0.45) sf x $165/sf x 1.0 region
-  const hard = (2400 + 900 + 900 * 0.45) * 165;
+  // (1150 + 1000 + 450 garage x 0.45) sf x $195/sf (standard) x 1.0 region
+  const hard = (1150 + 1000 + 450 * 0.45) * 195;
 
   it("prices hard cost from weighted square footage", () => {
-    expect(e.hardCost).toBeCloseTo(hard, 6); // $611,325
+    expect(e.hardCost).toBeCloseTo(hard, 6); // $458,737.50
   });
 
   it("adds soft costs: permits, engineering, insurance, utilities, 10% contingency", () => {
@@ -54,17 +54,17 @@ describe("the default example (landing page farmhouse)", () => {
     expect(soft.cont).toBeCloseTo(hard * 0.1, 6);
   });
 
-  it("matches the landing page headline numbers: $870k all-in, $73k saved, 39 weeks", () => {
-    expect(money(e.buildCost)).toBe("$720,127");
-    expect(shortMoney(e.allIn)).toBe("$870k");
-    expect(shortMoney(e.savings.total)).toBe("$73k");
+  it("builds for about $550k: $700k all-in, $55k saved, 39 weeks", () => {
+    expect(money(e.buildCost)).toBe("$549,992");
+    expect(shortMoney(e.allIn)).toBe("$700k");
+    expect(shortMoney(e.savings.total)).toBe("$55k");
     expect(e.schedule.totalWeeks).toBe(39);
     expect(e.schedule.months).toBe(9);
   });
 
   it("works out cost per finished square foot from main + upper floors only", () => {
-    expect(e.finishedSqft).toBe(3300);
-    expect(e.costPerFinishedSqft).toBeCloseTo(e.buildCost / 3300, 6);
+    expect(e.finishedSqft).toBe(2150);
+    expect(e.costPerFinishedSqft).toBeCloseTo(e.buildCost / 2150, 6);
   });
 
   it("group totals add up to the build cost", () => {
@@ -95,12 +95,12 @@ describe("the default example (landing page farmhouse)", () => {
 describe("finish level, region and space types", () => {
   it("multiplies cost per square foot by the region factor", () => {
     const e = estimate(withInputs({ finish: "upgraded", region: "high" }));
-    expect(e.hardCost).toBeCloseTo((2400 + 900 + 900 * 0.45) * 240 * 1.2, 6);
+    expect(e.hardCost).toBeCloseTo((1150 + 1000 + 450 * 0.45) * 240 * 1.2, 6);
   });
 
   it("counts basement and garage at 45% and bonus space at 50%", () => {
     const e = estimate(withInputs({ sqft: { main: 0, upper: 0, basement: 1000, garage: 1000, bonus: 1000 } }));
-    expect(e.hardCost).toBeCloseTo((450 + 450 + 500) * 165, 6);
+    expect(e.hardCost).toBeCloseTo((450 + 450 + 500) * 195, 6);
     expect(e.costPerFinishedSqft).toBeNull();
   });
 
@@ -176,7 +176,7 @@ describe("cleaning up inputs", () => {
 
   it("rejects unknown finish levels and regions", () => {
     const i = parseEstimateInputs({ finish: "gold", region: "__proto__" });
-    expect(i.finish).toBe("basic");
+    expect(i.finish).toBe("standard");
     expect(i.region).toBe("average");
   });
 

@@ -88,3 +88,21 @@ describe("ported cost model matches the landing page estimator", () => {
     expect(pageAmounts).toEqual(ours);
   });
 });
+
+describe("the landing page starts on the same example as the app", () => {
+  const value = (id: string) => html.match(new RegExp(`id="${id}"[^>]*value="([^"]*)"`))![1];
+  const selected = (id: string) => html.match(new RegExp(`id="${id}">[\\s\\S]*?<option value="([^"]*)" selected`))![1];
+
+  it("has the default example's inputs pre-filled", () => {
+    const i = DEFAULT_INPUTS;
+    expect(value("sfMain")).toBe(String(i.sqft.main));
+    expect(value("sfUpper")).toBe(String(i.sqft.upper));
+    expect(value("sfBase")).toBe(String(i.sqft.basement));
+    expect(value("sfGarage")).toBe(String(i.sqft.garage));
+    expect(value("sfBonus")).toBe(String(i.sqft.bonus));
+    expect(value("land")).toBe(String(i.land));
+    expect(value("util")).toBe(String(i.utilities));
+    expect(selected("finish")).toBe(FINISH[i.finish]);
+    expect(selected("region")).toBe(REGION[i.region]);
+  });
+});
