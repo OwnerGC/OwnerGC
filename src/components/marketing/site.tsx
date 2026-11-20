@@ -44,8 +44,8 @@ export function TopNav({ home = false, signedIn = false }: { home?: boolean; sig
         <Link className="plain" href={at("#faq")}>
           FAQ
         </Link>
-        <Link className="plain" href={signedIn ? "/dashboard" : "/login"}>
-          {signedIn ? "My projects" : "Sign in"}
+        <Link className="btn ghost" href={signedIn ? "/dashboard" : "/login"}>
+          {signedIn ? "My projects" : "Log in"}
         </Link>
         <WaitlistLink className="btn">Join waitlist</WaitlistLink>
       </div>
