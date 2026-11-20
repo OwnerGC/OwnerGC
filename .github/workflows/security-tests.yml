@@ -16,7 +16,8 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npx supabase start -x studio,imgproxy,edge-runtime,logflare,vector,realtime,supavisor,postgres-meta,storage-api
+      # storage-api stays on: the tests check the private file bucket.
+      - run: npx supabase start -x studio,imgproxy,edge-runtime,logflare,vector,realtime,supavisor,postgres-meta
       - run: npm run typecheck
       - run: npm run lint
       - run: npm test

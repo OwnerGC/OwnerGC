@@ -1,27 +1,16 @@
 // One saved project and its estimate. The numbers are recalculated from the
 // saved inputs with the same cost model as the estimator, so they always match.
 import Link from "next/link";
-import { notFound, redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
+import { getProjectContext } from "@/lib/project/access";
+import { loadBudget } from "@/lib/project/load";
+import { Stat } from "@/components/project/ui";
 import { estimate, hasSavedEstimate, inputsToSearchParams, money, parseEstimateInputs, percent, shortMoney } from "@/lib/estimator";
 
 type Props = { params: Promise<{ id: string }> };
 
-const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-
 export default async function ProjectPage({ params }: Props) {
   const { id } = await params;
-  if (!UUID.test(id)) notFound();
-
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) redirect("/login");
-
-  // Row-level security returns nothing unless this user is a member of the project.
-  const { data: project } = await supabase.from("projects").select("id, name, address, inputs").eq("id", id).maybeSingle();
-  if (!project) notFound();
+  const { supabase, project, canEdit } = await getProjectContext(id);
 
   const saved = hasSavedEstimate(project.inputs);
   const inputs = parseEstimateInputs(project.inputs);
@@ -29,23 +18,49 @@ export default async function ProjectPage({ params }: Props) {
   const editParams = inputsToSearchParams(inputs);
   editParams.set("project", project.id);
 
+  const loaded = await loadBudget(supabase, project.id);
+  const budget = loaded.lines.length ? loaded.summary : null;
+  const base = `/dashboard/projects/${project.id}`;
+
   return (
-    <main className="mx-auto max-w-3xl space-y-8 px-4 py-12">
-      <Link href="/dashboard" className="text-sm text-stone-600 underline">
-        ← Your projects
-      </Link>
-      <header className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold text-stone-900">{project.name}</h1>
-          {project.address && <p className="text-stone-600">{project.address}</p>}
+    <div className="space-y-8">
+      {budget ? (
+        <section className="space-y-3">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+            <Stat label="Budget" value={shortMoney(budget.totals.budgetCents / 100)} />
+            <Stat label="Spent" value={shortMoney(budget.totals.spentCents / 100)} note={budget.totals.budgetCents ? `${percent(budget.totals.spentCents / budget.totals.budgetCents)} of budget` : undefined} />
+            <Stat
+              label="Projected"
+              value={shortMoney(budget.totals.projectedCents / 100)}
+              tone={budget.totals.projectedCents > budget.totals.budgetCents ? "bad" : undefined}
+            />
+            <Stat label="Contingency left" value={shortMoney(budget.contingency.leftCents / 100)} tone={budget.contingency.leftCents < 0 ? "bad" : "good"} />
+          </div>
+          {budget.alarms.length > 0 && (
+            <p className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-800">
+              {budget.alarms.length} budget {budget.alarms.length === 1 ? "line needs" : "lines need"} attention.{" "}
+              <Link href={`${base}/budget`} className="underline">
+                See the budget
+              </Link>
+            </p>
+          )}
+        </section>
+      ) : (
+        saved && (
+          <p className="rounded-md border border-amber-200 bg-amber-50 p-4 text-sm text-stone-800">
+            Ready to start tracking? <Link href={`${base}/budget`} className="font-medium text-amber-800 underline">Set up your budget</Link> from this
+            estimate, then log spending against it.
+          </p>
+        )
+      )}
+
+      {canEdit && (
+        <div className="flex justify-end">
+          <Link href={`/estimate?${editParams}`} className="rounded-md bg-amber-600 px-4 py-2 font-medium text-white hover:bg-amber-700">
+            {saved ? "Edit estimate" : "Add an estimate"}
+          </Link>
         </div>
-        <Link
-          href={`/estimate?${editParams}`}
-          className="rounded-md bg-amber-600 px-4 py-2 font-medium text-white hover:bg-amber-700"
-        >
-          {saved ? "Edit estimate" : "Add an estimate"}
-        </Link>
-      </header>
+      )}
 
       {!saved ? (
         <p className="rounded-md border border-stone-200 bg-white p-4 text-stone-700">
@@ -53,6 +68,7 @@ export default async function ProjectPage({ params }: Props) {
         </p>
       ) : (
         <>
+          <h2 className="text-lg font-medium text-stone-900">Estimate</h2>
           <section className="grid grid-cols-2 gap-3 sm:grid-cols-4">
             <Stat label="All-in cost" value={shortMoney(e.allIn)} note="land + build" />
             <Stat label="Build cost" value={shortMoney(e.buildCost)} note={e.costPerFinishedSqft ? `${money(e.costPerFinishedSqft)}/finished sf` : "–"} />
@@ -122,16 +138,7 @@ export default async function ProjectPage({ params }: Props) {
           <p className="text-xs text-stone-500">Planning-grade estimate, not a bid, appraisal or financial advice. Get real bids before you lock a loan amount.</p>
         </>
       )}
-    </main>
-  );
-}
-
-function Stat({ label, value, note }: { label: string; value: string; note: string }) {
-  return (
-    <div className="rounded-md border border-stone-200 bg-white p-3">
-      <div className="text-xs font-semibold uppercase tracking-wide text-stone-500">{label}</div>
-      <div className="mt-1 font-mono text-xl text-stone-900">{value}</div>
-      <div className="text-xs text-stone-500">{note}</div>
     </div>
   );
 }
+
