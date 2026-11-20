@@ -10,7 +10,7 @@ name: Apply database migrations
 on:
   push:
     branches: [main]
-    paths: ["supabase/migrations/**"]
+    paths: ["supabase/migrations/**", ".github/workflows/db-migrations.yml"]
   workflow_dispatch: # also lets you run it by hand from the Actions tab
 
 # Never run two at once against the same database.
@@ -38,14 +38,15 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      # The supabase CLI targets a local database unless a command gets --remote.
       - name: Connect to the Supabase project
         run: npx supabase link --project-ref "$PROJECT_REF"
       # Phase 1 was applied by hand in the SQL Editor on 2026-11-20, so the
       # project's migration history doesn't know about it yet. Record it as
       # applied so it isn't run a second time. (Harmless once it's recorded.)
       - name: Record migrations that were applied by hand
-        run: npx supabase migration repair --status applied 20261120000000
+        run: npx supabase migration repair --remote --status applied 20261120000000
       - name: Show what will run
-        run: npx supabase migration list
+        run: npx supabase migration list --remote
       - name: Apply new migrations
-        run: npx supabase db push
+        run: npx supabase db push --remote
