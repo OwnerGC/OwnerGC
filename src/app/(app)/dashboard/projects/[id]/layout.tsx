@@ -10,6 +10,12 @@ const TABS: Tab[] = [
   { href: "/spending", label: "Spending" },
   { href: "/change-orders", label: "Change orders" },
   { href: "/waivers", label: "Lien waivers" },
+  { href: "/bids", label: "Bids" },
+  { href: "/subs", label: "Subs" },
+  { href: "/checklist", label: "Checklist" },
+  { href: "/schedule", label: "Schedule" },
+  { href: "/selections", label: "Selections" },
+  { href: "/photos", label: "Photos" },
   { href: "/documents", label: "Documents" },
 ];
 
