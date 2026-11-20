@@ -1,0 +1,11 @@
+// Cloudflare deploy settings for the ownergc.app landing page.
+// Cloudflare builds from the "landing" folder on every push to main and
+// serves the files in landing/public as a static site (free plan).
+{
+  "name": "shrill-brook-71bf",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./public",
+    "not_found_handling": "404-page"
+  }
+}
